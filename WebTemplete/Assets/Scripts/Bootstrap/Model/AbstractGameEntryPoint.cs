@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class AbstractGameEntryPoint : MonoBehaviour
 {
-    protected abstract IEnumerable<IRouter> Routers { get; }
+    protected abstract List<IRouter> Routers { get; }
 
     private void Start()
     {
@@ -19,10 +19,18 @@ public abstract class AbstractGameEntryPoint : MonoBehaviour
 
     private void InitWindows()
     {
-        foreach (var window in FindObjectsOfType<AbstractWindowUi>(true))
+        IEnumerable<AbstractWindowUi> windows = FindObjectsOfType<AbstractWindowUi>(true);
+        
+        GameObject uiControllerObj = new GameObject("UiController");
+        UiController controller = uiControllerObj.AddComponent<UiController>();
+        controller.RegisterAllWindows(windows);
+
+        foreach (var window in windows)
         {
             window.Init();
         }
+    
+        UiController.Instance.RegisterAllWindows(windows);
     }
 
     private void InitRouter()

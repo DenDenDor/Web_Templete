@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,12 +34,10 @@ public class UiController : MonoBehaviour
         }
 
         _instance = this;
-        RegisterAllWindows();
     }
 
-    private void RegisterAllWindows()
+    public void RegisterAllWindows(IEnumerable<AbstractWindowUi> allWindows)
     {
-        var allWindows = GetComponentsInChildren<AbstractWindowUi>(true);
         foreach (var window in allWindows)
         {
             var windowType = window.GetType();

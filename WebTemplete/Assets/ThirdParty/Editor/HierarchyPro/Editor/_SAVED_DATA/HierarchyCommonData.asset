@@ -20,6 +20,11 @@ MonoBehaviour:
     - 99c9720ab356a0642a771bea13969a05
   - pin: 0
     path:
+    - Assets/Scenes/Menu.unity
+    guid:
+    - f44b85b5c09902a46824b0320740bdfa
+  - pin: 0
+    path:
     - Assets/Sourse/RoadOfHell/Level/Scenes1/Level_01_juno.unity
     guid:
     - 3545e7dd8e020234f91a745f3c7b3df9

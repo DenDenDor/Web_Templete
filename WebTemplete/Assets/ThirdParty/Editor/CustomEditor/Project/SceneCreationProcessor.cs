@@ -91,7 +91,7 @@ public class SceneCreationProcessor : UnityEditor.AssetModificationProcessor
     private static void CreateGameEntryScript(string sceneName)
     {
         string scriptName = $"{sceneName}GameEntryPoint";
-        string scriptPath = $"Assets/Scripts/Bootstrap/Scene/{scriptName}.cs";
+        string scriptPath = $"Assets/Scripts/Bootstrap/Router/{scriptName}.cs";
         
         if (File.Exists(scriptPath)) return;
         
@@ -106,7 +106,7 @@ using UnityEngine;
 
 public class {scriptName} : AbstractGameEntryPoint
 {{
-    protected override IEnumerable<IRouter> Routers {{ get; }}
+    protected override List<IRouter> Routers {{ get; }}
 }}";
         
         File.WriteAllText(scriptPath, scriptContent);
