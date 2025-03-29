@@ -5,9 +5,11 @@ using System.IO;
 public class FolderStructureCreator : EditorWindow
 {
     private string moduleName = "ModuleName";
+    private bool createRouterScript = true;
+    private bool createWindowScript = true;
 
-    [MenuItem("Tools/Create Module Structure")]
-    public static void ShowWindow()
+    [MenuItem("Assets/Create/Module Structure", false, 20)]
+    private static void CreateModuleStructure()
     {
         GetWindow<FolderStructureCreator>("Create Module Structure");
     }
@@ -15,9 +17,15 @@ public class FolderStructureCreator : EditorWindow
     private void OnGUI()
     {
         GUILayout.Label("Create Module Folder Structure", EditorStyles.boldLabel);
+        
         moduleName = EditorGUILayout.TextField("Module Name", moduleName);
-
-        if (GUILayout.Button("Create Structure"))
+        
+        EditorGUILayout.Space();
+        createRouterScript = EditorGUILayout.Toggle("Create Router Script", createRouterScript);
+        createWindowScript = EditorGUILayout.Toggle("Create Window Script", createWindowScript);
+        
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Create"))
         {
             CreateStructure();
         }
@@ -31,30 +39,50 @@ public class FolderStructureCreator : EditorWindow
             return;
         }
 
-        string basePath = "Assets/" + moduleName;
+        string selectedPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+        if (string.IsNullOrEmpty(selectedPath))
+        {
+            selectedPath = "Assets";
+        }
+        else if (!Directory.Exists(selectedPath))
+        {
+            selectedPath = Path.GetDirectoryName(selectedPath);
+        }
+
+        string basePath = Path.Combine(selectedPath, moduleName);
         
         try
         {
-            // Create root folder
+            // Create folders
             Directory.CreateDirectory(basePath);
-            
-            // Create subfolders
             Directory.CreateDirectory(Path.Combine(basePath, "Router"));
             Directory.CreateDirectory(Path.Combine(basePath, "Model"));
             Directory.CreateDirectory(Path.Combine(basePath, "View"));
 
-            // Create router script
-            CreateRouterScript(moduleName, Path.Combine(basePath, "Router", moduleName + "Router.cs"));
+            // Create scripts
+            if (createRouterScript)
+            {
+                string routerPath = Path.Combine(basePath, "Router", moduleName + "Router.cs");
+                CreateRouterScript(moduleName, routerPath);
+            }
             
-            // Create window script
-            CreateWindowScript(moduleName, Path.Combine(basePath, "View", moduleName + "Window.cs"));
+            if (createWindowScript)
+            {
+                string windowPath = Path.Combine(basePath, "View", moduleName + "Window.cs");
+                CreateWindowScript(moduleName, windowPath);
+            }
 
             AssetDatabase.Refresh();
-            Debug.Log($"Module structure for {moduleName} created successfully!");
+            EditorUtility.FocusProjectWindow();
+            Object createdFolder = AssetDatabase.LoadAssetAtPath(basePath, typeof(Object));
+            Selection.activeObject = createdFolder;
+            
+            Debug.Log($"Module structure created at {basePath}");
+            Close();
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"Error creating module structure: {e.Message}");
+            Debug.LogError($"Error creating module: {e.Message}");
         }
     }
 
@@ -66,12 +94,12 @@ public class {moduleName}Router : IRouter
 {{
     public void OnInit()
     {{
-       
+        
     }}
 
     public void OnExit()
     {{
-       
+        
     }}
 }}";
         File.WriteAllText(filePath, scriptContent);
