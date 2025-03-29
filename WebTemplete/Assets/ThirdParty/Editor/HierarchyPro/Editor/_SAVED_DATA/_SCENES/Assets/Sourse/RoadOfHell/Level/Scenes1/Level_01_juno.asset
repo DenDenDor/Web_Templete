@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d2db98314fc904fa81236a0a67b3cf, type: 3}
+  m_Name: Level_01_juno
+  m_EditorClassIdentifier: 
+  types:
+  - data: []
+  - data: []
+  - data:
+    - saverType: 2
+      id_in_external_heap: 1019081278
+      indentifierVersion: GlobalObjectId_V1
+      identifierTypetargetObjectIdtargetPrefabId: -2-3545e7dd8e020234f91a745f3c7b3df9-389033298-0
+      namesPathBackup: Enviroment_01
+      siblingsPathBackup: 6
+      boolValue: 0
+      stringValue: 
+      highLighterData:
+      - TempColorData:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 38
+        - 42
+        - 45
+        - 255
+        - 0
+        - 160
+        - 0
+        - 0
+        - 0
+        - 0
+      iconData: []
+  - data: []
+  - data: []
+  - data: []
+  - data:
+    - saverType: 6
+      id_in_external_heap: -496925565
+      indentifierVersion: GlobalObjectId_V1
+      identifierTypetargetObjectIdtargetPrefabId: -2-3545e7dd8e020234f91a745f3c7b3df9-7194349213137921414-3104328535754762082
+      namesPathBackup: UI
+      siblingsPathBackup: 16
+      boolValue: 0
+      stringValue: 
+      highLighterData: []
+      iconData:
+      - icon_guid: Library/sv_icon_dot15_pix16_gizmo
+        icon_path: 
+        has_icon_color: 0
+        icon_color: {r: 0, g: 0, b: 0, a: 0}
+    - saverType: 6
+      id_in_external_heap: -1331637186
+      indentifierVersion: GlobalObjectId_V1
+      identifierTypetargetObjectIdtargetPrefabId: -2-3545e7dd8e020234f91a745f3c7b3df9-6704163103892010318-650222726
+      namesPathBackup: UI_02
+      siblingsPathBackup: 17
+      boolValue: 0
+      stringValue: 
+      highLighterData: []
+      iconData:
+      - icon_guid: Library/sv_icon_dot15_pix16_gizmo
+        icon_path: 
+        has_icon_color: 0
+        icon_color: {r: 0, g: 0, b: 0, a: 0}
+    - saverType: 6
+      id_in_external_heap: 447332733
+      indentifierVersion: GlobalObjectId_V1
+      identifierTypetargetObjectIdtargetPrefabId: -2-3545e7dd8e020234f91a745f3c7b3df9-8942977222298312250-1450952352
+      namesPathBackup: UI_03
+      siblingsPathBackup: 19
+      boolValue: 0
+      stringValue: 
+      highLighterData: []
+      iconData:
+      - icon_guid: Library/sv_icon_dot15_pix16_gizmo
+        icon_path: 
+        has_icon_color: 0
+        icon_color: {r: 0, g: 0, b: 0, a: 0}
+  BookMarks_InternalGlobal: []
+  HierExpands_InternalGlobal: []
