@@ -8,8 +8,19 @@ public abstract class AbstractGameEntryPoint : MonoBehaviour
 
     private void Start()
     {
+        InitSDKMediator();
         InitWindows();
         InitRouter();
+    }
+
+    private void InitSDKMediator()
+    {
+        if (FindObjectOfType<SDKMediator>() == null)
+        {
+            GameObject uiControllerObj = new GameObject("SDKMediator");
+
+            SDKMediator controller = uiControllerObj.AddComponent<SDKMediator>();
+        }
     }
 
     private void OnDisable()
