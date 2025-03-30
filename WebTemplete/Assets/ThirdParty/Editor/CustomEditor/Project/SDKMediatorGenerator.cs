@@ -11,7 +11,6 @@ public static class SDKMediatorGenerator
 {
     static SDKMediatorGenerator()
     {
-        // Подписываемся на событие изменения скриптов
         AssemblyReloadEvents.afterAssemblyReload += OnAssemblyReloaded;
     }
 
@@ -23,7 +22,6 @@ public static class SDKMediatorGenerator
     [MenuItem("Tools/Generate Save Methods")]
     public static void GenerateSaveMethods()
     {
-        // Находим класс SaveData
         var saveDataType = typeof(SaveData);
         var fields = saveDataType.GetFields()
             .Where(f => f.GetCustomAttribute<AutoGenerateSaveMethodAttribute>() != null)
@@ -31,7 +29,6 @@ public static class SDKMediatorGenerator
 
         if (!fields.Any()) return;
 
-        // Находим путь к файлу SDKMediator
         var mediatorScriptPath = FindScriptPath(typeof(SDKMediator));
         if (string.IsNullOrEmpty(mediatorScriptPath))
         {
@@ -39,17 +36,14 @@ public static class SDKMediatorGenerator
             return;
         }
 
-        // Читаем содержимое файла
         var scriptContent = File.ReadAllText(mediatorScriptPath);
         var builder = new StringBuilder();
 
-        // Генерируем методы для каждого поля
         foreach (var field in fields)
         {
             var methodName = $"Save{field.Name}";
-            var methodSignature = $"public void {methodName}(float value)";
+            var methodSignature = $"public void {methodName}({GetTypeName(field.FieldType)} value)";
 
-            // Проверяем, не существует ли уже такой метод
             if (scriptContent.Contains(methodSignature)) continue;
 
             builder.AppendLine();
@@ -63,13 +57,10 @@ public static class SDKMediatorGenerator
 
         if (builder.Length == 0) return;
 
-        // Вставляем сгенерированные методы перед последней закрывающей скобкой
         var insertIndex = scriptContent.LastIndexOf('}');
         if (insertIndex == -1) return;
 
         var newScriptContent = scriptContent.Insert(insertIndex - 1, builder.ToString());
-
-        // Записываем изменения обратно в файл
         File.WriteAllText(mediatorScriptPath, newScriptContent);
         AssetDatabase.Refresh();
     }
@@ -81,6 +72,21 @@ public static class SDKMediatorGenerator
         
         var path = AssetDatabase.GUIDToAssetPath(guids[0]);
         return path;
+    }
+
+    private static string GetTypeName(System.Type type)
+    {
+        if (type == typeof(int)) return "int";
+        if (type == typeof(float)) return "float";
+        if (type == typeof(bool)) return "bool";
+        if (type == typeof(string)) return "string";
+        if (type == typeof(double)) return "double";
+        if (type == typeof(decimal)) return "decimal";
+        if (type == typeof(char)) return "char";
+        if (type == typeof(byte)) return "byte";
+        
+        // Для других типов возвращаем полное имя
+        return type.Name;
     }
 }
 #endif
