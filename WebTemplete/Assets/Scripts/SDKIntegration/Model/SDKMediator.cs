@@ -35,7 +35,7 @@ public class SDKMediator : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         _instance = this;
         
         LoadSDKSelection();

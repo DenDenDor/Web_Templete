@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class SettingsRouter : IRouter
 {
-    public void OnInit()
+    public void Init()
     {
         
     }
 
-    public void OnExit()
+    public void Exit()
     {
         
     }

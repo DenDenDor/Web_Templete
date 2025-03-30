@@ -1,5 +1,5 @@
 public interface IRouter
 {
-    void OnInit();
-    void OnExit();
+    void Init();
+    void Exit();
 }

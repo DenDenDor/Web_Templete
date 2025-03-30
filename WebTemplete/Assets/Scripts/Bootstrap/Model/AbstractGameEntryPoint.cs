@@ -36,27 +36,23 @@ public abstract class AbstractGameEntryPoint : MonoBehaviour
         UiController controller = uiControllerObj.AddComponent<UiController>();
         controller.RegisterAllWindows(windows);
 
-        foreach (var window in windows)
-        {
+        foreach (var window in windows) 
             window.Init();
-        }
     
         UiController.Instance.RegisterAllWindows(windows);
     }
 
     private void InitRouter()
     {
-        foreach (var router in Routers)
-        {
-            router.OnInit();
-        }
+        foreach (var router in Routers) 
+            router.Init();
     }
 
     private void ExitRouter()
     {
         foreach (var router in Routers)
         {
-            router.OnExit();
+            router.Exit();
         }
     }
 }
