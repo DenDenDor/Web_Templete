@@ -92,12 +92,12 @@ public class FolderStructureCreator : EditorWindow
 
 public class {moduleName}Router : IRouter
 {{
-    public void OnInit()
+    public void Init()
     {{
         
     }}
 
-    public void OnExit()
+    public void Exit()
     {{
         
     }}
