@@ -8,9 +8,20 @@ public abstract class AbstractGameEntryPoint : MonoBehaviour
 
     private void Start()
     {
+        InitSceneController();
         InitSDKMediator();
         InitWindows();
         InitRouter();
+    }
+
+    private void InitSceneController()
+    {
+        if (FindObjectOfType<SceneController>() == null)
+        {
+            GameObject sceneController = new GameObject("SceneController");
+
+            SceneController controller = sceneController.AddComponent<SceneController>();
+        }
     }
 
     private void InitSDKMediator()
