@@ -110,5 +110,12 @@ public class SDKMediator : MonoBehaviour
         SaveData defaultSaveData = GenerateSaveData();
         defaultSaveData.SoundValue = value;
         _sdkAdapter.Save(defaultSaveData);
+    }
+    public void SaveCoins(int value)
+    {
+        SaveData defaultSaveData = GenerateSaveData();
+        defaultSaveData.Coins = value;
+        _sdkAdapter.Save(defaultSaveData);
     }
+
 }
