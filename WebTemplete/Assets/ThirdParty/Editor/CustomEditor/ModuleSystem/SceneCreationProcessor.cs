@@ -3,13 +3,51 @@ using UnityEditor;
 using System.IO;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 [InitializeOnLoad]
 public class SceneCreationProcessor : UnityEditor.AssetModificationProcessor
 {
+    private const string ProcessedScenesFile = "Assets/Resources/ProcessedScenes.txt";
+    
     static SceneCreationProcessor()
     {
         EditorApplication.delayCall += CheckCurrentScene;
+        EnsureProcessedScenesFileExists();
+    }
+
+    private static void EnsureProcessedScenesFileExists()
+    {
+        if (!File.Exists(ProcessedScenesFile))
+        {
+            string directory = Path.GetDirectoryName(ProcessedScenesFile);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            File.WriteAllText(ProcessedScenesFile, "");
+        }
+    }
+
+    private static void AddSceneToProcessedList(string sceneName)
+    {
+        HashSet<string> processedScenes = GetProcessedScenes();
+        if (processedScenes.Contains(sceneName)) return;
+        
+        processedScenes.Add(sceneName);
+        File.WriteAllText(ProcessedScenesFile, string.Join("\n", processedScenes));
+    }
+
+    private static HashSet<string> GetProcessedScenes()
+    {
+        EnsureProcessedScenesFileExists();
+        string[] lines = File.ReadAllLines(ProcessedScenesFile);
+        return new HashSet<string>(lines);
+    }
+
+    private static bool IsSceneProcessed(string sceneName)
+    {
+        return GetProcessedScenes().Contains(sceneName);
     }
 
     private static void OnWillCreateAsset(string assetPath)
@@ -25,6 +63,10 @@ public class SceneCreationProcessor : UnityEditor.AssetModificationProcessor
         if (currentScene.path.StartsWith("Assets/Scenes/"))
         {
             string sceneName = Path.GetFileNameWithoutExtension(currentScene.path);
+            
+            // Skip if scene is already processed
+            if (IsSceneProcessed(sceneName)) return;
+            
             VerifyEntryPoint(sceneName, currentScene);
         }
     }
@@ -50,11 +92,18 @@ public class SceneCreationProcessor : UnityEditor.AssetModificationProcessor
             EditorSceneManager.SaveScene(scene);
             Debug.Log($"Added {scriptName} component to existing GameObject");
         }
+        
+        // Mark scene as processed
+        AddSceneToProcessedList(sceneName);
     }
 
     private static void ProcessNewScene(string scenePath)
     {
         string sceneName = Path.GetFileNameWithoutExtension(scenePath);
+        
+        // Skip if scene is already processed
+        if (IsSceneProcessed(sceneName)) return;
+        
         CreateGameEntryScript(sceneName);
         
         AssetDatabase.Refresh();
@@ -85,6 +134,9 @@ public class SceneCreationProcessor : UnityEditor.AssetModificationProcessor
             entryPoint.AddComponent(type);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
+            
+            // Mark scene as processed
+            AddSceneToProcessedList(sceneName);
         }
     }
 

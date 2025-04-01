@@ -15,6 +15,16 @@ MonoBehaviour:
   ScenesTabs:
   - pin: 0
     path:
+    - Assets/Scenes/Demo/Game.unity
+    guid:
+    - 919b37f3a4164e64d8f8edebc41647fd
+  - pin: 0
+    path:
+    - Assets/Scenes/Demo/Menu.unity
+    guid:
+    - 1638d145ff70b7b4db9d4cde534953d3
+  - pin: 0
+    path:
     - Assets/Scenes/SampleScene.unity
     guid:
     - 99c9720ab356a0642a771bea13969a05
